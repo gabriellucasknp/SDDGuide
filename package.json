@@ -9,7 +9,7 @@
     "build": "cd frontend && npm ci && npm run build"
   },
   "devDependencies": {
-    "@vercel/node": "^3.0.0",
+    "@netlify/functions": "^2.0.0",
     "typescript": "^5.3.2"
   },
   "dependencies": {

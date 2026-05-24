@@ -1,0 +1,29 @@
+[build]
+  command   = "cd frontend && npm ci && npm run build"
+  publish   = "frontend/dist/sddguide/browser"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Redireciona chamadas /api/* para as Netlify Functions
+[[redirects]]
+  from   = "/api/health"
+  to     = "/.netlify/functions/health"
+  status = 200
+
+[[redirects]]
+  from   = "/api/prompts"
+  to     = "/.netlify/functions/prompts"
+  status = 200
+
+[[redirects]]
+  from   = "/api/prompts/*"
+  to     = "/.netlify/functions/prompts"
+  status = 200
+
+# SPA fallback – Angular Router
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
