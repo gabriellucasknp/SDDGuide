@@ -1,0 +1,123 @@
+<div class="container">
+
+  <div class="header">
+    <div class="badge">// SDDGUIDE</div>
+    <h1>Prompt<br><span>Gerador</span></h1>
+    <p class="subtitle">Configure seu projeto, gere o prompt base e cole no Claude para iniciar o método SDD → Plano → Execução.</p>
+  </div>
+
+  <!-- Flow -->
+  <div class="flow">
+    @for (step of flowSteps; track step; let last = $last) {
+      <div class="flow-step active">{{ step }}</div>
+      @if (!last) {
+        <div class="flow-arrow">→</div>
+      }
+    }
+  </div>
+
+  <!-- 01 Tipo de projeto -->
+  <div class="section">
+    <div class="section-label">01 — Tipo de projeto</div>
+    <div class="tags">
+      @for (tag of tipoTags; track tag) {
+        <div
+          class="tag"
+          [class.selected]="selectedTipo === tag"
+          (click)="selectTipo(tag)">{{ tag }}</div>
+      }
+    </div>
+  </div>
+
+  <!-- 02 Linguagens & ferramentas -->
+  <div class="section">
+    <div class="section-label">02 — Linguagens &amp; ferramentas</div>
+    <div class="tags">
+      @for (tag of stackTags; track tag) {
+        <div
+          class="tag"
+          [class.selected]="selectedStack.includes(tag)"
+          (click)="toggleStack(tag)">{{ tag }}</div>
+      }
+    </div>
+    <div class="input-group">
+      <label class="input-label">Outras ferramentas não listadas</label>
+      <input type="text" [(ngModel)]="stackExtra" placeholder="ex: Redis, Kafka, Tailwind...">
+    </div>
+  </div>
+
+  <!-- 03 Contexto do projeto -->
+  <div class="section">
+    <div class="section-label">03 — Contexto do projeto</div>
+    <div class="input-group">
+      <label class="input-label">Ideia inicial (pode ser vaga)</label>
+      <textarea rows="3" [(ngModel)]="ideia" placeholder="ex: Um sistema de busca de clientes por CPF com interface desktop..."></textarea>
+    </div>
+    <div class="input-group">
+      <label class="input-label">O que você já sabe fazer nessa stack</label>
+      <textarea rows="2" [(ngModel)]="sabe" placeholder="ex: SQL tenho boa base, C# básico, WPF nunca usei..."></textarea>
+    </div>
+    <div class="input-group">
+      <label class="input-label">Onde está sua maior dúvida ou desafio</label>
+      <textarea rows="2" [(ngModel)]="duvida" placeholder="ex: Não sei como conectar a interface ao banco nem exibir os dados..."></textarea>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" (click)="gerarPrompt()">Gerar Prompt</button>
+    <button class="btn-secondary" (click)="limpar()">Limpar tudo</button>
+  </div>
+
+  <hr>
+
+  <!-- Output -->
+  <div class="section">
+    <div class="section-label">Prompt gerado</div>
+    <div class="prompt-box">
+      @if (hasPrompt) {
+        <span [innerHTML]="promptHtml"></span>
+      } @else {
+        <span class="prompt-placeholder">Preencha os campos acima e clique em "Gerar Prompt".</span>
+      }
+    </div>
+    <div class="btn-row">
+      @if (showCopyBtn) {
+        <button class="btn-primary" (click)="copiar()">Copiar prompt</button>
+      }
+      <span class="copy-feedback" [class.show]="showCopyFeedback">✓ Copiado!</span>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Dicas de uso -->
+  <div class="section">
+    <div class="section-label">Como usar</div>
+
+    <div class="tip">
+      <div class="tip-icon">01</div>
+      <div class="tip-text"><strong>Cole o prompt no Claude</strong> e ele vai entrar no modo entrevista automaticamente — só responde, não dá respostas antes da hora.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">02</div>
+      <div class="tip-text"><strong>Responda as perguntas honestamente.</strong> Se travar numa resposta, isso já é sinal de onde está o buraco de entendimento — não pule.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">03</div>
+      <div class="tip-text"><strong>Ao final da entrevista</strong>, peça: <em>"Consolida o mini-SDD e gera o plano de execução com porquê antes do como."</em></div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">04</div>
+      <div class="tip-text"><strong>Durante a execução</strong>, antes de pedir ajuda em qualquer etapa, escreva o que você <em>acha</em> que vai acontecer. Errar a previsão é onde o aprendizado acontece.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-icon">05</div>
+      <div class="tip-text"><strong>Ao terminar o projeto</strong>, peça: <em>"Gera a documentação técnica baseada no que construímos."</em> Ela já vai estar contextualizada pelo histórico da conversa.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    modo aprendizado v1.0 — sdd → plano → execução → docs
+  </div>
+
+</div>
