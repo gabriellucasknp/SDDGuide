@@ -2,16 +2,22 @@
   "version": 2,
   "buildCommand": "cd frontend && npm ci && npm run build",
   "outputDirectory": "frontend/dist/sddguide/browser",
-  "framework": null,
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node"
-    }
-  },
   "rewrites": [
-    { "source": "/api/health", "destination": "/api/health" },
-    { "source": "/api/prompts", "destination": "/api/prompts" },
-    { "source": "/api/prompts/:path*", "destination": "/api/prompts" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/health",
+      "destination": "/api/health"
+    },
+    {
+      "source": "/api/prompts",
+      "destination": "/api/prompts"
+    },
+    {
+      "source": "/api/prompts/:path*",
+      "destination": "/api/prompts"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
